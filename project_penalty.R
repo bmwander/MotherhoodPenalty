@@ -325,19 +325,21 @@ plot_grid(wch, wch18, ncol = 2, nrow = 2)
 ############# children + age ############
 
 
-age_ch <- ggplot(data_after, aes(x = Age, y = `Number of children`)) +
-  geom_point(col = '#104E8B', alpha = 0.4)+
-  xlab('Age')+
-  ylab('Number of children')+
-  geom_smooth(method = loess, se = F, formula = y ~ x) +
+age_ch <- ggplot(data_after, aes(y = `Hourly total wage`, x = as.factor(`Number of children`)))+
+  geom_boxplot(fill = '#4271AE', colour = '#1F3552', 
+               alpha = 0.8,
+               outlier.colour = '#1F3552', outlier.shape = 20)+
+  xlab('Number of children')+
+  ylab('Hourly total wage')+
   theme_light()+
   theme(text = element_text(family = 'A'))
 
-age_ch18 <- ggplot(data_after, aes(x = Age, y = `Number of children(under 18)`)) +
-  geom_point(col = '#104E8B', alpha = 0.4)+
-  xlab('Age')+
-  ylab('Number of children (under 18)')+
-  geom_smooth(method = loess, se = F, formula = y ~ x)+
+age_ch18 <- ggplot(data_after, aes(y = `Hourly total wage`, x = as.factor(`Number of children(under 18)`)))+
+  geom_boxplot(fill = '#4271AE', colour = '#1F3552', 
+               alpha = 0.8,
+               outlier.colour = '#1F3552', outlier.shape = 20)+
+  xlab('Number of children (under 18)')+
+  ylab('Hourly total wage')+
   theme_light()+
   theme(text = element_text(family = 'A'))
 
