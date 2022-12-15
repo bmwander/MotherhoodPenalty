@@ -87,14 +87,14 @@ data[data == 99999998] = NA  #  REFUSES TO ANSWER
 data[data == 99999999] = NA  #  NO ANSWER
 
 
-# about the number of children asked only those,
+# About the number of children asked only those,
 # who answered positively to the question "HAS CHILDREN?"
 data <- data %>% 
   mutate(`Number of children` = ifelse(Children == 2, 0, `Number of children`),
          `Number of children(under 18)` = ifelse(Children == 2, 0, `Number of children(under 18)`))
 
 
-# about the second job asked only those,
+# About the second job asked only those,
 # who answered positively to the question "HAS SECOND JOB?"
 data <- data %>% 
   mutate(Hours_2 = ifelse(`Has second job` == 2, 0, Hours_2),
@@ -582,8 +582,30 @@ stargazer(rgr1_18,rgr2_18,
 # 'Number of children' and 'Number of children(under 18) is 0
 
 
-t1 <- coeftest(rgr1, vcov = vcovHC, type = "HC0")
-t1_18 <- coeftest(rgr1_18, vcov = vcovHC, type = "HC0")
+# For all children 
+t1 <- coeftest(rgr1, df=Inf, vcov = vcovHC, type = "HC0")
+
+tt1  <- t1[2,1] / t1[2,2]
+pv1 <- pnorm(tt1) 
+
+tt2  <- t1[3,1] / t1[3,2]
+pv2 <- pnorm(tt2) 
+
+tt3  <- t1[4,1] / t1[4,2]
+pv3 <- pnorm(tt3) 
+
+
+# For children under 18
+t1_18 <- coeftest(rgr1_18, df=Inf, vcov = vcovHC, type = "HC0")
+
+tt1_18  <- t1_18[2,1] / t1_18[2,2]
+pv1_18 <- pnorm(tt1_18) 
+
+tt2_18  <- t1_18[3,1] / t1_18[3,2]
+pv2_18 <- pnorm(tt2_18) 
+
+tt3_18  <- t1_18[4,1] / t1_18[4,2]
+pv3_18 <- pnorm(tt3_18)
 
 
 ########### Marginal effects ############
@@ -615,7 +637,7 @@ mar3_18 <- rgr2_18 %>%  margins_summary(variables = 'NOC18_more3',
                                   vcov = cov2_18)
 
 
-# Graph of marginal effects
+# Graph of marginal effects (alpha= 0.05)
 ME1 <- mar1 %>% ggplot()+
   geom_point(aes (x = Binary_marital_status, y = AME)) +
   geom_errorbar(aes (x = Binary_marital_status, ymin = lower, ymax = upper)) +
